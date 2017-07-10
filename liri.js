@@ -14,8 +14,8 @@ console.log(keys);
 
 //store the user's command line input as variables
 
-console.log('This is all of process.argv ' + process.argv);
 var wholeInput = process.argv;
+console.log('This is all of process.argv ' + wholeInput);
 
 //capture the action from the user's input
 
@@ -46,6 +46,7 @@ switch (action) {
 
 function tweets() {
 	console.log("Tweets");
+
 }
 
 
@@ -54,7 +55,25 @@ function tweets() {
 //Example input: node liri.js spotify-this-song 'Bohemian Rhapsody'
 
 function spot() {
-	console.log("Spotify");
+	//Create variable to store song's name
+	songName = "";
+	
+	//If the user doesn't provide a song name, use Bohemian Rhapsody
+	if (!wholeInput[3]) {
+		songName = "Bohemian Rhapsody"
+	}
+
+	//If a multi-word song name is provided, figure out the number of words and save to variable songName
+	if (wholeInput[3]) {
+		for (var i = 3; i < wholeInput.length; i++) {
+			if (i > 3 && i < wholeInput.length) {
+			songName = songName + '+' + wholeInput[i];
+		} else {
+			songName += wholeInput[i];
+		}
+	}
+	}
+	console.log(songName);
 }
 
 
@@ -63,7 +82,46 @@ function spot() {
 //Example input: node liri.js movie-this '<movie name here>'
 
 function movie() {
-	console.log("Movie");
+	//Create variable to store movie's name
+	movieName = "";
+	
+	//If the user doesn't provide a movie name, use Mr Nobody
+	if (!wholeInput[3]) {
+		movieName = "Mr." + "+" + "Nobody"
+	}
+
+	//If a multi-word movie name is provided, figure out the number of words and save to variable movieName
+	if (wholeInput[3]) {
+		for (var i = 3; i < wholeInput.length; i++) {
+			if (i > 3 && i < wholeInput.length) {
+			movieName = movieName + '+' + wholeInput[i];
+		} else {
+			movieName += wholeInput[i];
+		}
+	}
+	}
+	// Run a request to the OMDB API with the movie specified
+	var queryUrl = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&apikey=40e9cece";
+	// This line is just to help us debug against the actual URL.
+	console.log(queryUrl);
+	request(queryUrl, function(error, response, body) {
+  		// If the request is successful
+  		if (!error && response.statusCode === 200) {
+    	// Parse the body of the site and recover just the imdbRating
+    	// (Note: The syntax below for parsing isn't obvious. Just spend a few moments dissecting it).
+    	console.log(body);
+    	console.log("Title: " + JSON.parse(body).Title);
+    	console.log("Release Year: " + JSON.parse(body).Year);
+    	//"Ratings":[{"Source":"Internet Movie Database","Value":"7.9/10"},{"Source":"Rotten Tomatoes","Value":"64%"},{"Source":"Metacritic","Value":"63/100"}]
+    	console.log("IMDB Rating: " + JSON.parse(body).Ratings);
+    	console.log("Rotten Tomatoes Rating: " + JSON.parse(body).Ratings);
+    	console.log("Country of Production: " + JSON.parse(body).Country);
+    	console.log("Language of Movie: " + JSON.parse(body).Language);
+    	console.log("Plot of Movie: " + JSON.parse(body).Plot);
+    	console.log("Actor(s) of Movie: " + JSON.parse(body).Actors);
+  		}
+	});
+	console.log(movieName);
 }
 
 //Takes text inside of random.txt to run spotify-this-song command
@@ -72,4 +130,3 @@ function movie() {
 function says() {
 	console.log("Says");
 }
-
