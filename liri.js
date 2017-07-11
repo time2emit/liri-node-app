@@ -10,7 +10,9 @@ request = require("request");
 //grab keys from keys.js and save it in a variable
 
 keys = require("./keys.js");
-console.log(keys);
+keysForTwitter = keys.twitterKeys;
+console.log("This is the keysForTwitter variable " + keysForTwitter);
+
 
 //store the user's command line input as variables
 
@@ -46,8 +48,15 @@ switch (action) {
 
 function tweets() {
 	console.log("Tweets");
+ 
+	// var params = {screen_name: 'nodejs'};
+	// 	request(get('statuses/user_timeline', params, function(error, tweets, response) {
+ //  		if (!error) {
+ //    		console.log(tweets);
+ //  		}
+	// }));
 
-}
+};
 
 
 //Show song artist(s), song name, preview link from Spotify, album song is from
@@ -74,7 +83,7 @@ function spot() {
 	}
 	}
 	console.log(songName);
-}
+};
 
 
 //Show title of movie, year movie came out, IMDB rating of the movie, Rotten Tomatoes rating of movie, country of production, language of the movie, plot of the movie, actors in the movie
@@ -112,21 +121,29 @@ function movie() {
     	console.log(body);
     	console.log("Title: " + JSON.parse(body).Title);
     	console.log("Release Year: " + JSON.parse(body).Year);
-    	//"Ratings":[{"Source":"Internet Movie Database","Value":"7.9/10"},{"Source":"Rotten Tomatoes","Value":"64%"},{"Source":"Metacritic","Value":"63/100"}]
-    	console.log("IMDB Rating: " + JSON.parse(body).Ratings);
-    	console.log("Rotten Tomatoes Rating: " + JSON.parse(body).Ratings);
     	console.log("Country of Production: " + JSON.parse(body).Country);
     	console.log("Language of Movie: " + JSON.parse(body).Language);
     	console.log("Plot of Movie: " + JSON.parse(body).Plot);
     	console.log("Actor(s) of Movie: " + JSON.parse(body).Actors);
+
+
+    	//"Ratings":[{"Source":"Internet Movie Database","Value":"7.9/10"},{"Source":"Rotten Tomatoes","Value":"64%"},{"Source":"Metacritic","Value":"63/100"}]
+    	// Store returned array of ratings objects in a variable
+    	ratingsArray = JSON.parse(body).Ratings;
+    	for (i = 0; i < ratingsArray.length; i++) {
+    		var ratingsObjects = ratingsArray[i];
+    		var Source = ratingsObjects.Source;
+    		var Value = ratingsObjects.Value;
+    		console.log("The rating from " + Source + ' is ' + Value);
+    	}
   		}
 	});
 	console.log(movieName);
-}
+}; // close of movie function
 
 //Takes text inside of random.txt to run spotify-this-song command
 //Example input: node liri.js do-what-it-says
 
 function says() {
 	console.log("Says");
-}
+};
