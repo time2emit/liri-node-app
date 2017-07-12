@@ -67,7 +67,7 @@ function tweets() {
 //Default if no song is provided song: 'The Sign' artist: 'Ace of Base'
 //Example input: node liri.js spotify-this-song 'Bohemian Rhapsody'
 
-function spot() {
+function spot(songFromFile) {
 	//Create variable to store song's name
 	var songName = "";
 	
@@ -171,4 +171,14 @@ function movie() {
 
 function says() {
 	console.log("Says");
+	fs.readFile("random.txt", "utf8", function(error, data) {
+		if (error) {
+			return console.log(error);
+		} else {
+			var fileArray = data.split(',');
+			var commandFromFile = fileArray[0];
+			var songFromFile = fileArray[1];
+			spot(songFromFile);
+		}
+	})
 };
