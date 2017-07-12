@@ -73,8 +73,12 @@ function spot(songFromFile) {
 	
 	//If the user doesn't provide a song name, use Bohemian Rhapsody
 	if (!wholeInput[3]) {
-		var songName = "The Sign"
-	}
+		if (songFromFile) {
+			songName = songFromFile;
+		} else {
+			songName = "The Sign";
+		}
+	};
 
 	//If a multi-word song name is provided, figure out the number of words and save to variable songName
 	if (wholeInput[3]) {
@@ -170,7 +174,6 @@ function movie() {
 //Example input: node liri.js do-what-it-says
 
 function says() {
-	console.log("Says");
 	fs.readFile("random.txt", "utf8", function(error, data) {
 		if (error) {
 			return console.log(error);
