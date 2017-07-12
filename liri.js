@@ -2,16 +2,29 @@
 //require twitter and spotify modules
 //require request module
 
-fs = require("fs");
-twitter = require("twitter");
-spotify = require("spotify");
-request = require("request");
+var fs = require("fs");
+var twitter = require("twitter");
+var Spotify = require("node-spotify-api");
+var request = require("request");
 
 //grab keys from keys.js and save it in a variable
 
-keys = require("./keys.js");
-keysForTwitter = keys.twitterKeys;
-console.log("This is the keysForTwitter variable " + keysForTwitter);
+var keys = require("./keys.js");
+console.log(keys);
+
+var client = new twitter (
+	keys.twitterKeys
+	);
+
+var keysForTwitter = keys.twitterKeys;
+// console.log("This is the keysForTwitter variable " + keysForTwitter);
+// var client = new twitter({ 
+//  	consumer_key: '8ZPwieiNEyHNVGZk23MBcyrPf',
+//   	consumer_secret: 'EeBl5MIybamK4bMdlPz6osoXLrxrNBNzeXtpH4M3uUsd76YDIg',
+//   	access_token_key: '883431169315885057-mgyxRRxQOfhFiTynfWEwImCgv3UdQi4',
+//   	access_token_secret: 'gPvA2Cocqn5mYRFoQp7NNf9FOWTc7ATwAE2MeLcnRh6fz',
+// })
+
 
 
 //store the user's command line input as variables
@@ -49,12 +62,12 @@ switch (action) {
 function tweets() {
 	console.log("Tweets");
  
-	// var params = {screen_name: 'nodejs'};
-	// 	request(get('statuses/user_timeline', params, function(error, tweets, response) {
- //  		if (!error) {
- //    		console.log(tweets);
- //  		}
-	// }));
+	var params = {screen_name: '@aValleyUncanny'};
+	client.get('statuses/user_timeline', params, function(error, tweets, response) {
+  		if (!error) {
+    	console.log(tweets);
+  		}
+	});
 
 };
 
@@ -65,7 +78,7 @@ function tweets() {
 
 function spot() {
 	//Create variable to store song's name
-	songName = "";
+	var songName = "";
 	
 	//If the user doesn't provide a song name, use Bohemian Rhapsody
 	if (!wholeInput[3]) {
@@ -76,13 +89,35 @@ function spot() {
 	if (wholeInput[3]) {
 		for (var i = 3; i < wholeInput.length; i++) {
 			if (i > 3 && i < wholeInput.length) {
-			songName = songName + '+' + wholeInput[i];
-		} else {
-			songName += wholeInput[i];
+				songName = songName + '+' + wholeInput[i];
+			} else {
+				songName += wholeInput[i];
+			}
 		}
 	}
-	}
 	console.log(songName);
+	// Spofify keys saved in variable
+	var spotify = new Spotify({
+  		id: "e6050cbf903d4d50beb1ddc8ab3c6642",
+  		secret: "e7f701f0ee274816a7ccbc3375ffee34"
+	});
+ 
+	spotify.search({ type: 'track', query: 'All the Small Things' }, function(err, data) {
+  		if (err) {
+    		return console.log('Error occurred: ' + err);
+  	}
+ 
+		// console.log("Spotify Data:", data); 
+		//Show song artist(s), song name, preview link from Spotify, album song is from
+//take in multiple artists with loop
+	console.log(data.tracks.items[0].artists[0].name);	
+	console.log(data.tracks.items[0].album.name);
+	console.log(data.tracks.items[0].album.external_urls.spotify);
+	console.log(data.tracks.items[0].name);
+
+});
+
+
 };
 
 
