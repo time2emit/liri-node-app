@@ -10,27 +10,16 @@ var request = require("request");
 //grab keys from keys.js and save it in a variable
 
 var keys = require("./keys.js");
-console.log(keys);
 
 var client = new twitter (
 	keys.twitterKeys
 	);
 
 var keysForTwitter = keys.twitterKeys;
-// console.log("This is the keysForTwitter variable " + keysForTwitter);
-// var client = new twitter({ 
-//  	consumer_key: '8ZPwieiNEyHNVGZk23MBcyrPf',
-//   	consumer_secret: 'EeBl5MIybamK4bMdlPz6osoXLrxrNBNzeXtpH4M3uUsd76YDIg',
-//   	access_token_key: '883431169315885057-mgyxRRxQOfhFiTynfWEwImCgv3UdQi4',
-//   	access_token_secret: 'gPvA2Cocqn5mYRFoQp7NNf9FOWTc7ATwAE2MeLcnRh6fz',
-// })
-
-
 
 //store the user's command line input as variables
 
 var wholeInput = process.argv;
-console.log('This is all of process.argv ' + wholeInput);
 
 //capture the action from the user's input
 
@@ -60,12 +49,14 @@ switch (action) {
 //Example input: node liri.js my-tweets
 
 function tweets() {
-	console.log("Tweets");
  
 	var params = {screen_name: '@aValleyUncanny'};
 	client.get('statuses/user_timeline', params, function(error, tweets, response) {
   		if (!error) {
-    	console.log(tweets);
+  			var myTweets = tweets;
+  			for (var i = 0; i < tweets.length; i++) {
+  				console.log("Tweet #" + parseInt(i+1) + " " + tweets[i].text);
+  			}
   		}
 	});
 

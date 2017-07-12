@@ -8,5 +8,5 @@ exports.twitterKeys = {
 }
 
 //Spotify
-//Client ID e6050cbf903d4d50beb1ddc8ab3c6642
-//Client Secret e7f701f0ee274816a7ccbc3375ffee34
+// Client ID e6050cbf903d4d50beb1ddc8ab3c6642
+// Client Secret e7f701f0ee274816a7ccbc3375ffee34
