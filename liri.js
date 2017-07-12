@@ -73,7 +73,7 @@ function spot() {
 	
 	//If the user doesn't provide a song name, use Bohemian Rhapsody
 	if (!wholeInput[3]) {
-		songName = "Bohemian Rhapsody"
+		var songName = "The Sign"
 	}
 
 	//If a multi-word song name is provided, figure out the number of words and save to variable songName
@@ -86,25 +86,24 @@ function spot() {
 			}
 		}
 	}
-	console.log(songName);
 	// Spofify keys saved in variable
 	var spotify = new Spotify({
   		id: "e6050cbf903d4d50beb1ddc8ab3c6642",
   		secret: "e7f701f0ee274816a7ccbc3375ffee34"
 	});
  
-	spotify.search({ type: 'track', query: 'All the Small Things' }, function(err, data) {
+	spotify.search({ type: 'track', query: songName }, function(err, data) {
   		if (err) {
     		return console.log('Error occurred: ' + err);
   	}
  
 		// console.log("Spotify Data:", data); 
 		//Show song artist(s), song name, preview link from Spotify, album song is from
-//take in multiple artists with loop
-	console.log(data.tracks.items[0].artists[0].name);	
-	console.log(data.tracks.items[0].album.name);
-	console.log(data.tracks.items[0].album.external_urls.spotify);
-	console.log(data.tracks.items[0].name);
+		//take in multiple artists with loop
+	console.log("Song name: " + data.tracks.items[0].name);
+	console.log("Artist(s) name: " + data.tracks.items[0].artists[0].name);	
+	console.log("Album name: " + data.tracks.items[0].album.name);
+	console.log("Spotify link: " + data.tracks.items[0].album.external_urls.spotify);
 
 });
 
